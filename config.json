@@ -1,0 +1,4 @@
+{
+    "apiURL" : "https://mk-todo-web-api.azurewebsites.net/api/YeswanthTodoItems",
+    "deleteAllURL" : "https://mk-todo-web-api.azurewebsites.net/deleteAll"
+}
