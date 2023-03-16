@@ -1,9 +1,10 @@
 import { todoObject } from "../../utils/todo-object";
+import { ITodoObject } from "./type";
 
  export function localServer() {
     return {
-        getAllItems: function() {
-             return (`${localStorage.getItem('todos')}`)? JSON.parse(`${localStorage.getItem('todos')}`) : [] ;
+        getAllItems: function() : ITodoObject[] {
+             return (JSON.parse(`${localStorage.getItem('todos')}`) || [] )
         },
         postSingleItem: function (todo : string) {
             let set_Todo  = this.getAllItems()
@@ -33,3 +34,4 @@ import { todoObject } from "../../utils/todo-object";
     }
 }
 
+localServer().postSingleItem('yash')
