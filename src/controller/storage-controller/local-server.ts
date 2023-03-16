@@ -34,4 +34,3 @@ import { ITodoObject } from "./type";
     }
 }
 
-localServer().postSingleItem('yash')
