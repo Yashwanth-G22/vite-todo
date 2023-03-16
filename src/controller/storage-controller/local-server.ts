@@ -4,11 +4,11 @@ import { todoObject } from "../../utils/todo-object";
     return {
         getAllItems: function() {
              return (`${localStorage.getItem('todos')}`)? JSON.parse(`${localStorage.getItem('todos')}`) : [] ;
-           
         },
         postSingleItem: function (todo : string) {
             let set_Todo  = this.getAllItems()
-            let single_todo =new todoObject( set_Todo.length , todo )
+            console.log(set_Todo)
+            let single_todo  = new todoObject( set_Todo.length , todo )
             set_Todo.push(single_todo)
             localStorage.setItem('todos',JSON.stringify(set_Todo))
             return single_todo
