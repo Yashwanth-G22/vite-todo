@@ -1,5 +1,6 @@
 import config from "../../../config.json"
 import { Iobject } from "../../type"
+import { setObjstructure } from "../../model/todo-object"
 
 const { apiURL, deleteAllURL } = config
 
@@ -44,15 +45,4 @@ export function cloudServer() {
 
 }
 
-function setObjstructure(url: string, options: any): Promise<Response> | any {
-    try {
-        const header = new Headers
-        header.append('content-type', 'application/json');
-        return fetch(url, {
-            ...options,
-            headers: header,
-        })
-    } catch (err) {
-        console.log("something error")
-    }
-}
+

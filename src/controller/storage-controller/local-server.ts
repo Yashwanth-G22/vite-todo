@@ -1,4 +1,4 @@
-import { todoObject } from "../../utils/todo-object";
+import { todoObject } from "../../model/todo-object";
 import { ITodoObject } from "./type";
 
  export function localServer() {
