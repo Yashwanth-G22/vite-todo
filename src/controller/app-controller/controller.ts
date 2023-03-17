@@ -15,7 +15,7 @@ export const ul = document.querySelector('.taskList') as HTMLUListElement;
 
 
 
-export const selectStorage = (storage.value === 'localStorage')? cloudServer : localServer;
+export const selectStorage = (storage.value === 'localStorage')? localServer :cloudServer ;
 function control() {
     return {
         createAllTasks: async function () {
