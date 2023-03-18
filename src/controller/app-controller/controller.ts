@@ -15,37 +15,38 @@ export const ul = document.querySelector('.taskList') as HTMLUListElement;
 
 
 
-export const selectStorage = (storage.value === 'localStorage')? localServer :cloudServer ;
+export const selectStorage = (storage.value === 'localStorage') ? localServer : cloudServer;
 function control() {
     return {
         createAllTasks: async function () {
             if (storage.value === 'cloudStorage') {
                 let list = await cloudServer().getAllItems()
-                list.map(({ name , isCompleted , id} : ITodoObject) => {
-                    this.instance({name, isCompleted, id})
+                list.map(({ name, isCompleted, id }: ITodoObject) => {
+                    this.instance({ name, isCompleted, id })
                 })
-                
+
             } else {
                 let todo = localServer().getAllItems()
-                todo.map(({ name  , isCompleted, id} : ITodoObject) => {
-                    this.instance( {name, isCompleted , id })
+                todo.map(({ name, isCompleted, id }: ITodoObject) => {
+                    this.instance({ name, isCompleted, id })
                     console.log(id)
-                }) 
+                })
             }
+            setStorage()
         },
 
         createSingleTask: async function () {
             const value = input.value
             if (value) {
                 input.value = '';
-                let result =await selectStorage().postSingleItem(value) 
+                let result = await selectStorage().postSingleItem(value)
                 if (result.id && result.name) {
-                    let postArguments = { name : result.name , id : result.id , isCompleted : result.isCompleted}
-                    this.instance( postArguments )
+                    let postArguments = { name: result.name, id: result.id, isCompleted: result.isCompleted }
+                    this.instance(postArguments)
                 }
                 else {
-                    let args = { name : value , id : result.id}
-                    this.instance( args )
+                    let args = { name: value, id: result.id }
+                    this.instance(args)
                     console.log(result)
                 }
             } else {
@@ -53,8 +54,8 @@ function control() {
             }
         },
 
-        instance: function ({name ,id , isCompleted } : ITodoObject) {
-            return todoView().createListElement(name , id as number , isCompleted as boolean)
+        instance: function ({ name, id, isCompleted }: ITodoObject) {
+            return todoView().createListElement(name, id as number, isCompleted as boolean)
         },
     }
 }
@@ -65,12 +66,15 @@ btn.addEventListener('click', (e) => {
 })
 
 storage.addEventListener('change', () => {
-   let changeStorage = confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)
+    let changeStorage = confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)
+    let store = setStorage()
+    console.log(store);
+    (storage.value === store) ? null : localStorage.setItem('store', JSON.stringify(storage.value));
 
-    if(changeStorage === true){
+    if (changeStorage === true) {
         ul.innerHTML = ''
         control().createAllTasks()
-    }    
+    }
 })
 
 control().createAllTasks();
@@ -79,4 +83,8 @@ control().createAllTasks();
     selectStorage().deleteAllItems()
 })
 
+
+function setStorage() {
+    return (JSON.parse(`${localStorage.getItem('store')}`) || localStorage.setItem('store', JSON.stringify("cloudStorage")))
+}
 
