@@ -40,6 +40,9 @@ export function cloudServer() {
             setObjstructure(deleteAllURL, {
                 method: 'DELETE'
             })
+        },
+        test : function(){
+            console.log("test")
         }
     }
 

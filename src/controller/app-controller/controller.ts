@@ -8,28 +8,26 @@ import { cloudServer } from "../storage-controller/cloud-server.js";
 
 import { ITodoObject } from "../storage-controller/type.js";
 
-let storage = document.querySelector('.storage') as HTMLSelectElement;
-const btn = document.querySelector('.btn') as HTMLButtonElement;
+const storage = document.querySelector('.storage') as HTMLSelectElement;
+const addTaskButton = document.querySelector('.add-task-button') as HTMLButtonElement;
 export const input = document.querySelector('.input') as HTMLInputElement;
 export const ul = document.querySelector('.taskList') as HTMLUListElement;
 
 
 
-export const selectStorage = (storage.value === 'localStorage') ? localServer : cloudServer;
+export let getStorage = () => (storage.value !== 'cloudStorage') ? localServer() : cloudServer();
 function control() {
     return {
         createAllTasks: async function () {
             if (storage.value === 'cloudStorage') {
-                let list = await cloudServer().getAllItems()
+                const list = await cloudServer().getAllItems();
                 list.map(({ name, isCompleted, id }: ITodoObject) => {
                     this.instance({ name, isCompleted, id })
                 })
-
             } else {
-                let todo = localServer().getAllItems()
+                const todo = localServer().getAllItems();
                 todo.map(({ name, isCompleted, id }: ITodoObject) => {
                     this.instance({ name, isCompleted, id })
-                    console.log(id)
                 })
             }
             setStorage()
@@ -39,13 +37,13 @@ function control() {
             const value = input.value
             if (value) {
                 input.value = '';
-                let result = await selectStorage().postSingleItem(value)
+                const result = await getStorage().postSingleItem(value)
                 if (result.id && result.name) {
-                    let postArguments = { name: result.name, id: result.id, isCompleted: result.isCompleted }
+                    const postArguments = { name: result.name, id: result.id, isCompleted: result.isCompleted }
                     this.instance(postArguments)
                 }
                 else {
-                    let args = { name: value, id: result.id }
+                    const args = { name: value, id: result.id }
                     this.instance(args)
                     console.log(result)
                 }
@@ -60,27 +58,23 @@ function control() {
     }
 }
 
-btn.addEventListener('click', (e) => {
+addTaskButton.addEventListener('click', (e) => {
     e.preventDefault()
     control().createSingleTask()
 })
 
 storage.addEventListener('change', () => {
-    let changeStorage = confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)
-    let store = setStorage()
-    console.log(store);
-    (storage.value === store) ? null : localStorage.setItem('store', JSON.stringify(storage.value));
-
-    if (changeStorage === true) {
-        ul.innerHTML = ''
-        control().createAllTasks()
+    if (confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)) {
+        getStorage();
+        ul.innerHTML = '';
+        control().createAllTasks();
     }
 })
 
 control().createAllTasks();
 
 (document.querySelector('.clearAllBtn') as HTMLButtonElement).addEventListener('click', () => {
-    selectStorage().deleteAllItems()
+    getStorage().deleteAllItems()
 })
 
 
