@@ -30,7 +30,7 @@ function control() {
                     this.instance({ name, isCompleted, id })
                 })
             }
-            setStorage()
+            // setStorage()
         },
 
         createSingleTask: async function () {
@@ -78,7 +78,7 @@ control().createAllTasks();
 })
 
 
-function setStorage() {
-    return (JSON.parse(`${localStorage.getItem('store')}`) || localStorage.setItem('store', JSON.stringify("cloudStorage")))
-}
+// function setStorage() {
+//     return (JSON.parse(`${localStorage.getItem('store')}`) || localStorage.setItem('store', JSON.stringify("cloudStorage")))
+// }
 
