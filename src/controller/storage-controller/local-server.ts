@@ -8,7 +8,6 @@ import { ITodoObject } from "./type";
         },
         postSingleItem: function (todo : string) {
             const set_Todo  = this.getAllItems()
-            console.log(set_Todo)
             const single_todo  = new todoObject( set_Todo.length , todo )
             set_Todo.push(single_todo)
             localStorage.setItem('todos',JSON.stringify(set_Todo))

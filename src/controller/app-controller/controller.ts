@@ -1,22 +1,23 @@
-import { todoView } from "../../view/todo-view.js";
+import { todoView } from "../../view/todo-view";
 
-import { localServer } from "../storage-controller/local-server.js";
+import { localServer } from "../storage-controller/local-server";
 
-import { cloudServer } from "../storage-controller/cloud-server.js";
+import { cloudServer } from "../storage-controller/cloud-server";
 
 // import { eventManager } from "./event-manager.js";
 
-import { ITodoObject } from "../storage-controller/type.js";
-
-const storage = document.querySelector('.storage') as HTMLSelectElement;
-const addTaskButton = document.querySelector('.add-task-button') as HTMLButtonElement;
-export const input = document.querySelector('.input') as HTMLInputElement;
-export const ul = document.querySelector('.taskList') as HTMLUListElement;
+import { ITodoObject } from "../storage-controller/type";
+import { storage } from "../../scripts/index";
+import {input} from '../../scripts/index'
+// const storage = document.querySelector('.storage') as HTMLSelectElement;
+// const addTaskButton = document.querySelector('.add-task-button') as HTMLButtonElement;
+// export const input = document.querySelector('.input') as HTMLInputElement;
+// export const ul = document.querySelector('.taskList') as HTMLUListElement;
 
 
 
 export let getStorage = () => (storage.value !== 'cloudStorage') ? localServer() : cloudServer();
-function control() {
+export function control() {
     return {
         createAllTasks: async function () {
             if (storage.value === 'cloudStorage') {
@@ -58,24 +59,24 @@ function control() {
     }
 }
 
-addTaskButton.addEventListener('click', (e) => {
-    e.preventDefault()
-    control().createSingleTask()
-})
+// addTaskButton.addEventListener('click', (e) => {
+//     e.preventDefault()
+//     control().createSingleTask()
+// })
 
-storage.addEventListener('change', () => {
-    if (confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)) {
-        getStorage();
-        ul.innerHTML = '';
-        control().createAllTasks();
-    }
-})
+// storage.addEventListener('change', () => {
+//     if (confirm(`U are changing the storage .=> you data will store only in ${storage.value}`)) {
+//         getStorage();
+//         ul.innerHTML = '';
+//         control().createAllTasks();
+//     }
+// })
 
-control().createAllTasks();
+// control().createAllTasks();
 
-(document.querySelector('.clearAllBtn') as HTMLButtonElement).addEventListener('click', () => {
-    getStorage().deleteAllItems()
-})
+// (document.querySelector('.clearAllBtn') as HTMLButtonElement).addEventListener('click', () => {
+//     getStorage().deleteAllItems()
+// })
 
 
 // function setStorage() {

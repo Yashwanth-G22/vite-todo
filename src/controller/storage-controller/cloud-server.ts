@@ -1,8 +1,8 @@
-import config from "../../../config.json"
+import { apiURL , deleteAllURL } from "../../scripts"
 import { Iobject } from "../../type"
 import { setObjstructure } from "../../model/todo-object"
 
-const { apiURL, deleteAllURL } = config
+
 
 export function cloudServer() {
 
